@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using UnityEngine;
 
 namespace RPG.Saving
@@ -15,9 +13,12 @@ namespace RPG.Saving
         {
             _formatter = new BinaryFormatter();
         }
+
         public void Save(string saveFile)
         {
-            SaveFile(saveFile, CaptureState());
+            var oldState = LoadFile(saveFile);
+            CaptureState(oldState);       
+            SaveFile(saveFile, oldState);
         }
 
         public void Load(string saveFile)
@@ -35,26 +36,33 @@ namespace RPG.Saving
 
         private Dictionary<string, object> LoadFile(string saveFile)
         {
-            using FileStream stream = File.Open(GetPathFromSaveFile(saveFile),
+            string path = GetPathFromSaveFile(saveFile);
+            if (!File.Exists(path))
+            {
+                return new Dictionary<string, object>();
+            }
+
+            using FileStream stream = File.Open(path,
                 FileMode.Open);
             print($"Saving to {GetPathFromSaveFile(saveFile)}");
             return (Dictionary<string, object>)_formatter.Deserialize(stream);
         }
 
-        private Dictionary<string, object> CaptureState()
-        {
-            Dictionary<string, object> state = new Dictionary<string, object>();
+        private void CaptureState(Dictionary<string, object> state)
+        {            
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
-            return state;
         }
         private void RestoreState(Dictionary<string, object> state)
         {
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
-                saveable.RestoreState(state[saveable.GetUniqueIdentifier()]);
+                string id = saveable.GetUniqueIdentifier();
+                if (!state.ContainsKey(id)) continue;
+                
+                saveable.RestoreState(state[id]);
             }
         }
 

@@ -360,3 +360,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/UserSettings
+/Temp
+/SavingModule
+/Library
+/.vsconfig

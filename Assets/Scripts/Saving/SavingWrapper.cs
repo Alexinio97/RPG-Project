@@ -10,19 +10,30 @@ namespace RPG.Saving
         private void Start()
         {
             _savingSystem = GetComponent<SavingSystem>();
+            Load();
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
-                _savingSystem.Save(saveFile);
+                Save();
             }
 
             if (Input.GetKeyDown(KeyCode.L))
             {
-                _savingSystem.Load(saveFile);
+                Load();
             }
+        }
+
+        public void Load()
+        {
+            _savingSystem.Load(saveFile);
+        }
+
+        public void Save()
+        {
+            _savingSystem.Save(saveFile);
         }
     }
 }

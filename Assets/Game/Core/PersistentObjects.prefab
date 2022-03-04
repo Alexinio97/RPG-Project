@@ -83,6 +83,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3395116635425224478, guid: adce31f39e79a6d4cb5a7d7b873f1e05, type: 3}
+      propertyPath: fadeInTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8570642390919196668, guid: adce31f39e79a6d4cb5a7d7b873f1e05, type: 3}
       propertyPath: m_Name
       value: Saving

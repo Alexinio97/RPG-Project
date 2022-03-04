@@ -11,6 +11,8 @@ namespace RPG.Saving
     public class SaveableEntity : MonoBehaviour
     {
         [SerializeField] string uniqueIdentifier = "";
+        // also available between scenes
+        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
 
         public string GetUniqueIdentifier()
         {
@@ -37,8 +39,8 @@ namespace RPG.Saving
                 if (stateDict.ContainsKey(typeString))
                 {
                     saveable.RestoreState(stateDict[typeString]);
-                }                
-            }            
+                }
+            }
         }
 
 #if UNITY_EDITOR
@@ -49,14 +51,39 @@ namespace RPG.Saving
 
             SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty serializedProperty = serializedObject.FindProperty("uniqueIdentifier");
-            
-            if (string.IsNullOrWhiteSpace(serializedProperty.stringValue))
+
+            if (string.IsNullOrWhiteSpace(serializedProperty.stringValue) || 
+                !IsUnique(serializedProperty.stringValue))
             {
                 serializedProperty.stringValue = Guid.NewGuid().ToString();
                 serializedObject.ApplyModifiedProperties();
-            }            
+            }
+
+            globalLookup[serializedProperty.stringValue] = this;
         }
 #endif
+
+        private bool IsUnique(string candidate)
+        {
+            if (!globalLookup.ContainsKey(candidate)) return true;
+
+            if (globalLookup[candidate] == this) return true;
+
+            // saveable entities get destroyed when switching scenes
+            if (globalLookup[candidate] == null)
+            {
+                globalLookup.Remove(candidate);
+                return true;
+            }
+
+            if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
+            {
+                globalLookup.Remove(candidate);
+                return true;
+            }
+
+            return false;
+        }
     }
 }
 

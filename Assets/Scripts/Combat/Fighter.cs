@@ -1,5 +1,6 @@
 using RPG.Core;
 using RPG.Movement;
+using System;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -8,7 +9,10 @@ namespace RPG.Combat
     {
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenattacks = 1f;
-        [SerializeField] float weaponDamage = 5f;
+        [SerializeField] float weaponDamage = 5f;        
+        [SerializeField] Transform handTransform = null;
+        [SerializeField] Weapon weapon = null;
+        
 
         private Animator _animator;
 
@@ -22,6 +26,7 @@ namespace RPG.Combat
             _moverScript = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
+            SpawnWeapon();
         }
 
         private void Update()
@@ -58,6 +63,13 @@ namespace RPG.Combat
         {
             _animator.ResetTrigger("stopAttack");
             _animator.SetTrigger("attacking");
+        }
+
+        private void SpawnWeapon()
+        {
+            if(weapon == null) return;
+
+            weapon.Spawn(handTransform, _animator);
         }
 
         private bool GetIsInRange()

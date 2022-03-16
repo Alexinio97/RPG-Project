@@ -1,17 +1,14 @@
 using RPG.Core;
 using RPG.Movement;
-using System;
 using UnityEngine;
 
 namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
-    {
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] float timeBetweenattacks = 1f;
-        [SerializeField] float weaponDamage = 5f;        
-        [SerializeField] Transform handTransform = null;
-        [SerializeField] Weapon weapon = null;
+    {        
+        [SerializeField] Transform rightHandTransform = null;
+        [SerializeField] Transform leftHandTransform = null;
+        [SerializeField] Weapon defaultWeapon = null;
         
 
         private Animator _animator;
@@ -19,6 +16,7 @@ namespace RPG.Combat
         private Mover _moverScript;
         private ActionScheduler _actionScheduler;
         private Health _target;
+        private Weapon _currentWeapon = null;
         private float timeSinceLastAttack = Mathf.Infinity;
 
         private void Start()
@@ -26,7 +24,7 @@ namespace RPG.Combat
             _moverScript = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
         private void Update()
@@ -51,7 +49,7 @@ namespace RPG.Combat
         private void AttackBehaviour()
         {
             transform.LookAt(_target.transform);
-            if (timeSinceLastAttack > timeBetweenattacks)
+            if (timeSinceLastAttack > _currentWeapon.GetTimeBetweenAttacks)
             {
                 // This will trigger the Hit() event                
                 TriggerAttack();
@@ -65,17 +63,16 @@ namespace RPG.Combat
             _animator.SetTrigger("attacking");
         }
 
-        private void SpawnWeapon()
+        public void EquipWeapon(Weapon weapon)
         {
-            if(weapon == null) return;
-
-            weapon.Spawn(handTransform, _animator);
+            _currentWeapon = weapon;
+            weapon.Spawn(rightHandTransform, leftHandTransform, _animator);
         }
 
         private bool GetIsInRange()
         {
             return Vector3.Distance(transform.position,
-                _target.transform.position) < weaponRange;
+                _target.transform.position) < _currentWeapon.GetRange;
         }
 
         public bool CanAttack(GameObject combatTarget)
@@ -102,10 +99,24 @@ namespace RPG.Combat
         // Animation Event
         void Hit()
         {
-            if (_target != null)
-            {                                
-                _target.TakeDamage(weaponDamage);
-            }            
+            if (_target == null) return;
+
+            if (_currentWeapon.HasProjectile)
+            {
+                _currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform
+                    , _target);
+            }
+            else
+            {
+                _target.TakeDamage(_currentWeapon.GetDamage);
+            }
+                       
+        }
+
+        // Animation Event
+        void Shoot()
+        {
+            Hit();
         }
     }
 }

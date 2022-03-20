@@ -1,5 +1,6 @@
 using RPG.Core;
 using RPG.Movement;
+using System;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -47,8 +48,8 @@ namespace RPG.Combat
         }
 
         private void AttackBehaviour()
-        {
-            transform.LookAt(_target.transform);
+        {          
+            transform.LookAt(_target.transform);            
             if (timeSinceLastAttack > _currentWeapon.GetTimeBetweenAttacks)
             {
                 // This will trigger the Hit() event                
@@ -59,8 +60,10 @@ namespace RPG.Combat
 
         private void TriggerAttack()
         {
+            
             _animator.ResetTrigger("stopAttack");
             _animator.SetTrigger("attacking");
+            _currentWeapon.EnableWeaponTrail(true, _currentWeapon);
         }
 
         public void EquipWeapon(Weapon weapon)
@@ -83,8 +86,8 @@ namespace RPG.Combat
         }
 
         public void Attack(GameObject combatTarget)
-        {
-            _actionScheduler.StartAction(this);
+        {            
+            _actionScheduler.StartAction(this);            
             _target = combatTarget.GetComponent<Health>();
         }
 
@@ -92,6 +95,7 @@ namespace RPG.Combat
         {
             _animator.ResetTrigger("attacking");
             _animator.SetTrigger("stopAttack");
+            _currentWeapon.EnableWeaponTrail(false, _currentWeapon);
             _target = null;
             _moverScript.Cancel();
         }

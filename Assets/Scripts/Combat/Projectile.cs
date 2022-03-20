@@ -7,15 +7,25 @@ namespace RPG.Combat
     public class Projectile : MonoBehaviour
     {
         [SerializeField] float _speed;
-        
-        Health _target = null;
-        float _damage = 0;
+        [SerializeField] bool _isHoming;
+
+        private Health _target = null;
+        private float _damage = 0;
+        private float _destoryDelay = 0f;
+
+        private void Start()
+        {
+            transform.LookAt(GetAimLocation());
+        }
 
         void Update()
         {
             if (_target == null) return;
 
-            transform.LookAt(GetAimLocation());
+            if (_isHoming && !_target.IsDead)
+            {
+                transform.LookAt(GetAimLocation());
+            }
             transform.Translate(_speed * Time.deltaTime * Vector3.forward);
         }
 
@@ -35,15 +45,16 @@ namespace RPG.Combat
         private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Health>() != _target) return;
+            if (_target.IsDead) return;
             
-            _target.TakeDamage(_damage);
-            StartCoroutine(DestroyProjectileWithDelay());
+            _target.TakeDamage(_damage);            
+            StartCoroutine(DestroyProjectileWithDelay(_destoryDelay));
             
         }
 
-        private IEnumerator DestroyProjectileWithDelay()
+        private IEnumerator DestroyProjectileWithDelay(float destroyDelay)
         {          
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(destroyDelay);
             Destroy(gameObject);
         }
     }

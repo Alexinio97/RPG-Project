@@ -1,4 +1,4 @@
-using RPG.Core;
+using RPG.Attributes;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -28,9 +28,17 @@ namespace RPG.Combat
                 instantiatedWeapon.name = weaponName;                
             }
 
+            
+            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+
             if (animatorOverrideController != null)
             {
                 animator.runtimeAnimatorController = animatorOverrideController;
+            }
+            else if (overrideController != null)
+            {
+                // if it's already an override get its parent
+                animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;                
             }
         }
 

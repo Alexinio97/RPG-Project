@@ -1,16 +1,16 @@
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
-using System;
+using RPG.Saving;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {        
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
-        
 
         private Animator _animator;
 
@@ -25,7 +25,11 @@ namespace RPG.Combat
             _moverScript = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
-            EquipWeapon(defaultWeapon);
+
+            if (_currentWeapon == null)
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         private void Update()
@@ -69,7 +73,7 @@ namespace RPG.Combat
         public void EquipWeapon(Weapon weapon)
         {
             _currentWeapon = weapon;
-            weapon.Spawn(rightHandTransform, leftHandTransform, _animator);
+            weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
         }
 
         private bool GetIsInRange()
@@ -121,6 +125,22 @@ namespace RPG.Combat
         void Shoot()
         {
             Hit();
+        }
+
+        public object CaptureState()
+        {
+            if (_currentWeapon != null)
+            {
+                return _currentWeapon.name;
+            }
+            return defaultWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            var weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
         }
     }
 }

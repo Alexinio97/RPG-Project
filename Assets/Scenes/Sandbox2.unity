@@ -777,6 +777,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -15.09
       objectReference: {fileID: 0}
+    - target: {fileID: 5065047663167378012, guid: 7539e12140dfc4747afee2c398ccc00d, type: 3}
+      propertyPath: startingLevel
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5119666050643986005, guid: 7539e12140dfc4747afee2c398ccc00d, type: 3}
       propertyPath: m_Name
       value: EquippedWeapon

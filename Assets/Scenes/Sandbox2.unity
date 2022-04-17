@@ -779,7 +779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5065047663167378012, guid: 7539e12140dfc4747afee2c398ccc00d, type: 3}
       propertyPath: startingLevel
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5119666050643986005, guid: 7539e12140dfc4747afee2c398ccc00d, type: 3}
       propertyPath: m_Name
@@ -910,6 +910,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 120107989448563399, guid: 6ebf8bd4c4da38d478d5897e315b8102, type: 3}
+      propertyPath: startingLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 447833764957173209, guid: 6ebf8bd4c4da38d478d5897e315b8102, type: 3}
       propertyPath: m_RootOrder
       value: 2

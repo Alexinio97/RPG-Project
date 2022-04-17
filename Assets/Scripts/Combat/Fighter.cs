@@ -76,6 +76,11 @@ namespace RPG.Combat
             weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
         }
 
+        public Health GetTarget()
+        {
+            return _target;
+        }
+
         private bool GetIsInRange()
         {
             return Vector3.Distance(transform.position,
@@ -112,11 +117,11 @@ namespace RPG.Combat
             if (_currentWeapon.HasProjectile)
             {
                 _currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform
-                    , _target);
+                    , _target, gameObject);
             }
             else
             {
-                _target.TakeDamage(_currentWeapon.GetDamage);
+                _target.TakeDamage(gameObject, _currentWeapon.GetDamage);
             }
                        
         }

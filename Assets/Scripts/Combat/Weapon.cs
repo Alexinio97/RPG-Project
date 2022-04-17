@@ -43,11 +43,11 @@ namespace RPG.Combat
         }
 
         public void LaunchProjectile(Transform rightHand, Transform leftHand,
-                Health target)
+                Health target, GameObject instigator)
         {
             var pojectileInstance = Instantiate(projectile,
                 GetTransformHand(rightHand, leftHand).position, Quaternion.identity);
-            pojectileInstance.SetTarget(target, weaponDamage);
+            pojectileInstance.SetTarget(target, instigator, weaponDamage);
         }
 
         public void EnableWeaponTrail(bool isEnabled, Weapon equippedWeapon)

@@ -25,7 +25,7 @@ namespace RPG.SceneManagement
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag.Equals("Player"))
+            if (other.CompareTag("Player"))
             {
                 StartCoroutine(Transition());
             }
@@ -35,7 +35,7 @@ namespace RPG.SceneManagement
         {
             if (sceneToLoadIndex < 0)
             {
-                Debug.LogError("Scene to load is not set!");
+                Debug.LogError("Scene to load is not set!", gameObject);
                 yield break;
             }
 
@@ -64,8 +64,7 @@ namespace RPG.SceneManagement
         {
             var player = GameObject.FindWithTag("Player");
             player.GetComponent<NavMeshAgent>().enabled = false;
-            player.transform.position = otherPortal.spawnPoint.position;
-            player.transform.rotation = otherPortal.spawnPoint.rotation;
+            player.transform.SetPositionAndRotation(otherPortal.spawnPoint.position, otherPortal.spawnPoint.rotation);
             player.GetComponent<NavMeshAgent>().enabled = true;
         }
 

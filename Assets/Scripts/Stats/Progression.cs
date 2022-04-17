@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Stats
@@ -6,25 +8,64 @@ namespace RPG.Stats
     public class Progression : ScriptableObject
     {
         [SerializeField] ProgressionCharacterClass[] CharacterClasses = null;
+        Dictionary<CharacterClass, Dictionary<Stat, float[]>> lookupTable = null;
 
         [System.Serializable]
         class ProgressionCharacterClass
         {
             public CharacterClass characterClass;
-            public float[] healthList;
-            float[] damageList;
+            public ProgressionStat[] stats;
         }
 
-        public float GetHealth(CharacterClass characterClassReceived, int level)
+        public float GetStat(Stat stat, CharacterClass characterClassReceived, int level)
         {
-            foreach (var characterClass in CharacterClasses)
+            BuildLookUp();
+
+            var levels = lookupTable[characterClassReceived][stat];
+
+            if (levels.Length < level)
             {
-                if (characterClassReceived == characterClass.characterClass)
+                return 0;
+            }
+
+            return levels[level - 1];
+        }
+
+        public int GetLevels(Stat stat, CharacterClass character)
+        {
+            if (lookupTable == null || !lookupTable[character].ContainsKey(stat))            
+                BuildLookUp();
+
+            float[] levels = lookupTable[character][stat];
+            return levels.Length;
+        }
+
+        private void BuildLookUp()
+        {
+            if (lookupTable != null) return;
+            
+            lookupTable = new Dictionary<CharacterClass, Dictionary<Stat, float[]>>();
+            
+
+            foreach (var progressionClass in CharacterClasses)
+            {
+                var statLookUpTable = new Dictionary<Stat, float[]>();
+                lookupTable[progressionClass.characterClass] = statLookUpTable;
+
+                foreach (var progressionStat in progressionClass.stats)
                 {
-                    return characterClass.healthList[level - 1];
+                    statLookUpTable[progressionStat.stat] = progressionStat.levels;                    
                 }
             }
-            return 30;
+
         }
+    }
+
+    [System.Serializable]
+    public class ProgressionStat
+    {
+        public Stat stat;
+        public float[] levels;
+
     }
 }

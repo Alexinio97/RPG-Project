@@ -1,4 +1,5 @@
 using RPG.Attributes;
+using RPG.Models;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -42,12 +43,11 @@ namespace RPG.Combat
             }
         }
 
-        public void LaunchProjectile(Transform rightHand, Transform leftHand,
-                Health target, GameObject instigator)
+        public void LaunchProjectile(ProjectileInformation projectileInformation)
         {
             var pojectileInstance = Instantiate(projectile,
-                GetTransformHand(rightHand, leftHand).position, Quaternion.identity);
-            pojectileInstance.SetTarget(target, instigator, weaponDamage);
+                GetTransformHand(projectileInformation.RightHand, projectileInformation.LeftHand).position, Quaternion.identity);
+            pojectileInstance.SetTarget(projectileInformation.Target, projectileInformation.Instigator, projectileInformation.CalculatedDamage);
         }
 
         public void EnableWeaponTrail(bool isEnabled, Weapon equippedWeapon)

@@ -1,12 +1,15 @@
 using RPG.Attributes;
 using RPG.Core;
+using RPG.Models;
 using RPG.Movement;
 using RPG.Saving;
+using RPG.Stats;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {        
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
@@ -109,19 +112,36 @@ namespace RPG.Combat
             _moverScript.Cancel();
         }
 
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return _currentWeapon.GetDamage;
+            }
+        }
+
         // Animation Event
         void Hit()
         {
             if (_target == null) return;
 
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+            print("Damage from progression: " + damage);
             if (_currentWeapon.HasProjectile)
             {
-                _currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform
-                    , _target, gameObject);
+                var projectileInfo = new ProjectileInformation
+                {
+                    Target = _target,
+                    RightHand = rightHandTransform,
+                    LeftHand = leftHandTransform,
+                    Instigator = gameObject,
+                    CalculatedDamage = damage
+                };
+                _currentWeapon.LaunchProjectile(projectileInfo);
             }
             else
             {
-                _target.TakeDamage(gameObject, _currentWeapon.GetDamage);
+                _target.TakeDamage(gameObject, damage);
             }
                        
         }

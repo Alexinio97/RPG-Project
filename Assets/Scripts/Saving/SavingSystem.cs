@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -12,13 +13,8 @@ namespace RPG.Saving
         private BinaryFormatter _formatter;
         private const string _sceneBuildIndexKey = "lastSceneBuildIndex";
 
-        private void Awake()
-        {
-            _formatter = new BinaryFormatter();
-        }
-
         public void Save(string saveFile)
-        {
+        {            
             var oldState = LoadFile(saveFile);
             CaptureState(oldState);       
             SaveFile(saveFile, oldState);
@@ -44,8 +40,15 @@ namespace RPG.Saving
             RestoreState(state);
         }
 
+        public void Delete(string saveFile)
+        {
+            File.Delete(GetPathFromSaveFile(saveFile));
+            Debug.Log("Save file deleted!");
+        }
+
         private void SaveFile(string saveFile, Dictionary<string, object> state)
         {
+            _formatter = new BinaryFormatter();
             using FileStream stream = File.Open(GetPathFromSaveFile(saveFile),
                 FileMode.Create);
             print($"Saving to {GetPathFromSaveFile(saveFile)}");
@@ -54,6 +57,7 @@ namespace RPG.Saving
 
         private Dictionary<string, object> LoadFile(string saveFile)
         {
+            _formatter = new BinaryFormatter();
             string path = GetPathFromSaveFile(saveFile);
             if (!File.Exists(path))
             {

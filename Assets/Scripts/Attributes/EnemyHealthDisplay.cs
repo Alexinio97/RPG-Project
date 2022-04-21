@@ -22,7 +22,7 @@ namespace RPG.Attributes
             if (target != null)
             {
                 var enemyType = target.GetComponent<BaseStats>().GetClass;
-                GetComponent<Text>().text = string.Format("{0}: {1:0}%", enemyType, fighter.GetTarget().GetPercentage());
+                GetComponent<Text>().text = string.Format("{0}: {1:0}/{2:0}", enemyType, target.GetHealthPoints, target.GetMaxHealthPoints);
             }
             else
             {

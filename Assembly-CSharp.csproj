@@ -78,6 +78,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Lookups\Animations\TwoHandedSwordAttack.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Character\Attack.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Null.cs" />
+    <Compile Include="Assets\Scripts\Models\ProjectileInformation.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Lookups\Animations\AnimatorTrigger.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperStateMachine.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterMovementController.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Assets\Scripts\Combat\CombatTarget.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Lookups\Animations\UnarmedAttack.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\Fall.cs" />
+    <Compile Include="Assets\Scripts\Stats\IModifierProvider.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\BaseActionHandler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Extensions\AnimatorExtensions.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\DiveRoll.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Character\SlowTime.cs" />
     <Compile Include="Assets\Scripts\Saving\SavingSystem.cs" />
+    <Compile Include="Assets\Scripts\Stats\LevelDisplay.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\Navigation.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\BruteForceMesh.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\CoroutineQueue.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Assets\Scripts\Core\ActionScheduler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
+    <Compile Include="Assets\Asset Packs\GameDev.tv Assets\Scripts\Utils\LazyValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />

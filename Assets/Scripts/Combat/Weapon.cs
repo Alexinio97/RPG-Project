@@ -1,4 +1,3 @@
-using RPG.Attributes;
 using RPG.Models;
 using UnityEngine;
 
@@ -12,6 +11,7 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenattacks = 1f;
         [SerializeField] float weaponDamage = 5f;
+        [SerializeField] float percentageBonus = 0;
         [SerializeField] bool isRightHanded = true;
         [SerializeField] Projectile projectile = null;
 
@@ -50,9 +50,9 @@ namespace RPG.Combat
             pojectileInstance.SetTarget(projectileInformation.Target, projectileInformation.Instigator, projectileInformation.CalculatedDamage);
         }
 
-        public void EnableWeaponTrail(bool isEnabled, Weapon equippedWeapon)
+        public void EnableWeaponTrail(string weaponName, bool isEnabled)
         {            
-            if (equippedWeapon.name.Equals("Sword"))
+            if (weaponName.Equals("Sword"))
             {
                 var weapon = GameObject.FindGameObjectWithTag("Weapon");                
                 weapon.GetComponentInChildren<TrailRenderer>().emitting = isEnabled;
@@ -62,6 +62,7 @@ namespace RPG.Combat
         public bool HasProjectile => projectile != null;
         public float GetRange => weaponRange;
         public float GetDamage => weaponDamage;
+        public float GetPercentageBonus => percentageBonus;
         public float GetTimeBetweenAttacks => timeBetweenattacks;        
 
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)

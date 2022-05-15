@@ -1,3 +1,4 @@
+using GameDevTV.Utils;
 using RPG.Attributes;
 using RPG.Core;
 using RPG.Models;
@@ -16,23 +17,30 @@ namespace RPG.Combat
         [SerializeField] Weapon defaultWeapon = null;
 
         private Animator _animator;
-
         private Mover _moverScript;
         private ActionScheduler _actionScheduler;
         private Health _target;
-        private Weapon _currentWeapon = null;
+        private LazyValue<Weapon> _currentWeapon;
         private float timeSinceLastAttack = Mathf.Infinity;
 
-        private void Start()
+        private void Awake()
         {
             _moverScript = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
 
-            if (_currentWeapon == null)
-            {
-                EquipWeapon(defaultWeapon);
-            }
+            _currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        }        
+
+        private void Start()
+        {            
+            _currentWeapon.ForceInit();
+        }
+
+        private Weapon SetupDefaultWeapon()
+        {
+            SpawnWeapon(defaultWeapon);
+            return defaultWeapon;
         }
 
         private void Update()
@@ -57,7 +65,7 @@ namespace RPG.Combat
         private void AttackBehaviour()
         {          
             transform.LookAt(_target.transform);            
-            if (timeSinceLastAttack > _currentWeapon.GetTimeBetweenAttacks)
+            if (timeSinceLastAttack > _currentWeapon.value.GetTimeBetweenAttacks)
             {
                 // This will trigger the Hit() event                
                 TriggerAttack();
@@ -70,12 +78,18 @@ namespace RPG.Combat
             
             _animator.ResetTrigger("stopAttack");
             _animator.SetTrigger("attacking");
-            _currentWeapon.EnableWeaponTrail(true, _currentWeapon);
+            _currentWeapon.value.EnableWeaponTrail(_currentWeapon.value.name,
+                true);
         }
 
         public void EquipWeapon(Weapon weapon)
         {
-            _currentWeapon = weapon;
+            _currentWeapon.value = weapon;
+            SpawnWeapon(weapon);
+        }
+
+        private void SpawnWeapon(Weapon weapon)
+        {
             weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
         }
 
@@ -87,7 +101,7 @@ namespace RPG.Combat
         private bool GetIsInRange()
         {
             return Vector3.Distance(transform.position,
-                _target.transform.position) < _currentWeapon.GetRange;
+                _target.transform.position) < _currentWeapon.value.GetRange;
         }
 
         public bool CanAttack(GameObject combatTarget)
@@ -107,17 +121,27 @@ namespace RPG.Combat
         {
             _animator.ResetTrigger("attacking");
             _animator.SetTrigger("stopAttack");
-            _currentWeapon.EnableWeaponTrail(false, _currentWeapon);
+            _currentWeapon.value.EnableWeaponTrail(_currentWeapon.value.name,
+                false);
             _target = null;
             _moverScript.Cancel();
         }
 
-        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
             if (stat == Stat.Damage)
             {
-                yield return _currentWeapon.GetDamage;
+                yield return _currentWeapon.value.GetDamage;
             }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return _currentWeapon.value.GetPercentageBonus;
+            }
+
         }
 
         // Animation Event
@@ -127,7 +151,7 @@ namespace RPG.Combat
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
             print("Damage from progression: " + damage);
-            if (_currentWeapon.HasProjectile)
+            if (_currentWeapon.value.HasProjectile)
             {
                 var projectileInfo = new ProjectileInformation
                 {
@@ -137,7 +161,7 @@ namespace RPG.Combat
                     Instigator = gameObject,
                     CalculatedDamage = damage
                 };
-                _currentWeapon.LaunchProjectile(projectileInfo);
+                _currentWeapon.value.LaunchProjectile(projectileInfo);
             }
             else
             {
@@ -154,11 +178,7 @@ namespace RPG.Combat
 
         public object CaptureState()
         {
-            if (_currentWeapon != null)
-            {
-                return _currentWeapon.name;
-            }
-            return defaultWeapon.name;
+            return _currentWeapon.value.name;
         }
 
         public void RestoreState(object state)

@@ -1,3 +1,4 @@
+using GameDevTV.Utils;
 using System;
 using UnityEngine;
 
@@ -10,36 +11,68 @@ namespace RPG.Stats
         [SerializeField] CharacterClass characterClass;
         [SerializeField] Progression progression = null;
         [SerializeField] GameObject levelUpEffect = null;
-
         public event Action OnLevelUp;
 
-        private int currentLevel = 0;
-        
+        private Experience _experience;
+        private LazyValue<int> currentLevel;
+
+        private void Awake()
+        {
+            _experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(CalculateLevel);
+        }
+
         private void Start()
         {
-            currentLevel = CalculateLevel();
-            Experience experience = GetComponent<Experience>();
-            if (experience != null)
+            currentLevel.ForceInit();
+        }
+
+        private void OnEnable()
+        {
+            if (_experience != null)
             {
-                experience.onExperienceGained += UpdateLevel;
+                _experience.onExperienceGained += UpdateLevel;
             }
-            Debug.Log($"Current level is {currentLevel}");
+        }
+
+        private void OnDisable()
+        {
+            if(_experience != null)
+            {
+                _experience.onExperienceGained -= UpdateLevel;
+            }            
         }
 
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > currentLevel)
+            if (newLevel > currentLevel.value)
             {
-                currentLevel = newLevel;               
+                currentLevel.value = newLevel;               
                 Instantiate(levelUpEffect, transform);
                 OnLevelUp();
             }
         }
 
-        public float GetStat(Stat stat)
+        private float GetPercentageModifier(Stat stat)
         {
-            return progression.GetStat(stat, characterClass, GetLevel()) + GetAdditiveModifiers(stat);
+            float percentageSum = 0;
+
+            var modifierProviders = GetComponents<IModifierProvider>();
+            foreach (var modifierProvider in modifierProviders)
+            {
+                foreach (var percentageModifier in modifierProvider.GetPercentageModifiers(stat))
+                {
+                    percentageSum += percentageModifier;
+                }
+            }
+            
+            return percentageSum;
+        }
+
+        private float GetBaseStat(Stat stat)
+        {
+            return progression.GetStat(stat, characterClass, GetLevel());
         }
 
         private float GetAdditiveModifiers(Stat stat)
@@ -49,7 +82,7 @@ namespace RPG.Stats
             var modifierProviders = GetComponents<IModifierProvider>();
             foreach (var provider in modifierProviders)
             {
-                foreach (var modifier in provider.GetAdditiveModifier(stat))
+                foreach (var modifier in provider.GetAdditiveModifiers(stat))
                 {
                     modifierSum += modifier;
                 }
@@ -62,14 +95,13 @@ namespace RPG.Stats
 
         public int GetLevel()
         {
-            if (currentLevel < 1)
-            {
-                currentLevel = CalculateLevel();
-            }
-
-            return currentLevel;
+            return currentLevel.value;
         }
 
+        public float GetStat(Stat stat)
+        {
+            return GetBaseStat(stat) + GetAdditiveModifiers(stat) * (1 + GetPercentageModifier(stat) / 100);
+        }
 
         public int CalculateLevel()
         {

@@ -15,7 +15,7 @@ namespace RPG.Movement
         private ActionScheduler _actionScheduler;
         private Health _health;
 
-        void Start()
+        void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();

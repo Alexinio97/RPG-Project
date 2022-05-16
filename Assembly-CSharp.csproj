@@ -130,6 +130,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperCollider.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\HitContext.cs" />
     <Compile Include="Assets\Scripts\Saving\SerializableVector3.cs" />
+    <Compile Include="Assets\Asset Packs\GameDev.tv Assets\Scripts\Utils\LazyValue.cs" />
     <Compile Include="Assets\Scripts\Stats\Progression.cs" />
     <Compile Include="Assets\Scripts\Attributes\EnemyHealthDisplay.cs" />
     <Compile Include="Assets\Scripts\Stats\BaseStats.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="Assets\Scripts\Core\ActionScheduler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
-    <Compile Include="Assets\Asset Packs\GameDev.tv Assets\Scripts\Utils\LazyValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />

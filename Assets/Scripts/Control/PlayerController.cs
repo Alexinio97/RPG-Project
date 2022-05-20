@@ -48,10 +48,28 @@ namespace RPG.Control
                 return;
             }
 
-            if (InteractWithCombat()) return;
+            if (InteractWithComponent()) return;            
             if (InteractWithMovement()) return;
 
             SetCursor(CursorType.None);
+        }
+
+        private bool InteractWithComponent()
+        {
+            var hits = Physics.RaycastAll(GetMouseRay());
+            foreach (var hit in hits)
+            {
+                var raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (var raycastable in raycastables)
+                {
+                    if (raycastable.HandleRaycast(this))
+                    {
+                        SetCursor(CursorType.Combat);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool InteractWithUI()
@@ -62,28 +80,6 @@ namespace RPG.Control
                 return true;
             }
 
-            return false;
-        }
-
-        private bool InteractWithCombat()
-        {
-            var hits = Physics.RaycastAll(GetMouseRay());
-            foreach (var hit in hits)
-            {
-                var combatTarget = 
-                    hit.transform.GetComponent<CombatTarget>();
-
-                if(combatTarget == null) continue;
-
-                if (!_figther.CanAttack(combatTarget.gameObject)) continue;
-
-                if (Input.GetMouseButton(0))
-                {
-                    _figther.Attack(combatTarget.gameObject);
-                }
-                SetCursor(CursorType.Combat);
-                return true;
-            }
             return false;
         }
 

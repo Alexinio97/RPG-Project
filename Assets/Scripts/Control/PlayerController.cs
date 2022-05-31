@@ -4,24 +4,14 @@ using RPG.Combat;
 using RPG.Attributes;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 namespace RPG.Control
-{
-    // TODO: move cursor mapping login in a separate class
+{    
     public class PlayerController : MonoBehaviour
     {
-        private Mover _moverScript;
-        private Fighter _figther;
-        private Health _health;
-
-
-        enum CursorType
-        {
-            None,
-            Movement,
-            Combat,
-            UI
-        }
+        private Mover _moverScript;        
+        private Health _health;        
 
         [Serializable]
         struct CursorMapping
@@ -30,12 +20,14 @@ namespace RPG.Control
             public Texture2D texture;
             public Vector2 hotspot;
         }
+
         [SerializeField] CursorMapping[] cursorMappings = null;
+        [SerializeField] float rangeNavMeshHit = 1.0f;
+        [SerializeField] float maxNavPathLength = 40f;
 
         private void Awake()
         {
-            _moverScript = GetComponent<Mover>();
-            _figther = GetComponent<Fighter>();
+            _moverScript = GetComponent<Mover>();            
             _health = GetComponent<Health>();
         }
 
@@ -56,7 +48,7 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            var hits = Physics.RaycastAll(GetMouseRay());
+            var hits = RaycastAllSorted();
             foreach (var hit in hits)
             {
                 var raycastables = hit.transform.GetComponents<IRaycastable>();
@@ -64,12 +56,26 @@ namespace RPG.Control
                 {
                     if (raycastable.HandleRaycast(this))
                     {
-                        SetCursor(CursorType.Combat);
+                        SetCursor(raycastable.GetCursorType());
                         return true;
                     }
                 }
             }
             return false;
+        }
+
+        private RaycastHit[] RaycastAllSorted()
+        {
+            var hits = Physics.RaycastAll(GetMouseRay());
+            float[] distances = new float[hits.Length];
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+
+            Array.Sort(distances, hits);
+            return hits;      
         }
 
         private bool InteractWithUI()
@@ -103,17 +109,54 @@ namespace RPG.Control
 
         private bool InteractWithMovement()
         {
-            bool hasHit = Physics.Raycast(GetMouseRay(), out RaycastHit raycastHit);
+            //bool hasHit = Physics.Raycast(GetMouseRay(), out RaycastHit raycastHit);
+            bool hasHit = RaycastNavMesh(out Vector3 target);
             if (hasHit)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    _moverScript.StartMoveAction(raycastHit.point, 1f);
+                    _moverScript.StartMoveAction(target, 1f);
                 }
                 SetCursor(CursorType.Movement);
                 return true;
             }
+            SetCursor(CursorType.None);            
             return false;
+        }
+
+        private bool RaycastNavMesh(out Vector3 target)
+        {
+            target = Vector3.zero;
+            bool hasHit = Physics.Raycast(GetMouseRay(), out RaycastHit raycastHit);
+            if (!hasHit) return false;
+            
+            var hasNavMeshHit = NavMesh.SamplePosition(raycastHit.point, out NavMeshHit navHit,
+                rangeNavMeshHit, NavMesh.AllAreas);
+
+            if (!hasNavMeshHit) return false;
+            
+            target = navHit.position;
+
+            var path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+
+            if(!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;
+            if (GetPathLength(path) > maxNavPathLength) return false;
+
+            return true;
+        }
+
+        private float GetPathLength(NavMeshPath path)
+        {
+            float sum = 0f;
+            if (path.corners.Length < 2) return sum;            
+
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                sum += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            return sum;
         }
 
         private static Ray GetMouseRay()

@@ -149,8 +149,7 @@ namespace RPG.Combat
         {
             if (_target == null) return;
 
-            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
-            print("Damage from progression: " + damage);
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);            
             if (_currentWeapon.value.HasProjectile)
             {
                 var projectileInfo = new ProjectileInformation

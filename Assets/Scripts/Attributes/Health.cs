@@ -1,7 +1,9 @@
 using GameDevTV.Utils;
 using RPG.Core;
+using RPG.Events;
 using RPG.Saving;
 using RPG.Stats;
+using RPG.UI.DamageText;
 using System.Collections;
 using UnityEngine;
 
@@ -11,20 +13,24 @@ namespace RPG.Attributes
     {
         [SerializeField] float fadeInGroundDuration = 3f;
         [SerializeField] float regenerationPercentage = 70;
+        [SerializeField] TakeDamageEvent takeDamageEvent;
        
         private Animator _animator;
         private ActionScheduler _scheduler;
         private LazyValue<float> _healthPoints;
         private float maxHealthPoints;
         private bool _isDead = false;
-        private BaseStats _baseStats;
+        private BaseStats _baseStats;        
 
         private void Awake()
         {
-            _baseStats = GetComponent<BaseStats>();
-
+            _baseStats = GetComponent<BaseStats>();            
             _healthPoints = new LazyValue<float>(GetInitialHealth);
         }
+
+        private DamageTextSpawner GetDamageTextSpawner()
+        => GetComponentInChildren<DamageTextSpawner>();
+        
 
         private float GetInitialHealth()
         {
@@ -35,7 +41,7 @@ namespace RPG.Attributes
 
         private void Start()
         {              
-            _healthPoints.ForceInit();
+            _healthPoints.ForceInit();            
         }
 
         private void OnEnable()
@@ -100,13 +106,15 @@ namespace RPG.Attributes
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            print(gameObject.name + " took damage: " + damage);
-
             _healthPoints.value = Mathf.Max(_healthPoints.value - damage, 0);
             if (_healthPoints.value == 0)
             {
                 AwardExperience(instigator);
                 Die();
+            }
+            else
+            {
+                takeDamageEvent.Invoke(damage);
             }
         }
 

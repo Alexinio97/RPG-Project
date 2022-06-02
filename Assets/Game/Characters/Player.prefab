@@ -118,6 +118,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5865939324544604510, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 911234576050954286}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Spawn
+      objectReference: {fileID: 0}
     - target: {fileID: 6625963280331698203, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: uniqueIdentifier
       value: Player
@@ -186,6 +198,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7811134891154505795, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
   m_PrefabInstance: {fileID: 5872925958486962609}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &911234576050954286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6711920421284549023, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+  m_PrefabInstance: {fileID: 5872925958486962609}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c819c0d7431d42e4795dacdc74c95427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &9120223865758705296
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -267,3 +290,5 @@ MonoBehaviour:
   - type: 3
     texture: {fileID: 2800000, guid: f8c873f1e53e83f4aabf342d6be1dfc3, type: 3}
     hotspot: {x: 0, y: 0}
+  rangeNavMeshHit: 1
+  maxNavPathLength: 40

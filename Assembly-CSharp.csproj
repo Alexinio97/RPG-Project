@@ -88,6 +88,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\Idle.cs" />
     <Compile Include="Assets\Scripts\Saving\SaveableEntity.cs" />
     <Compile Include="Assets\Scripts\Core\DestroyAfterEffect.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageText\DamageTextSpawner.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\Knockback.cs" />
     <Compile Include="Assets\Scripts\Stats\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Combat\Fighter.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\DiveRoll.cs" />
     <Compile Include="Assets\Scripts\Combat\Weapon.cs" />
     <Compile Include="Assets\Scripts\Attributes\HealthDisplay.cs" />
+    <Compile Include="Assets\Scripts\Core\CameraFacing.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperCollider.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\HitContext.cs" />
     <Compile Include="Assets\Scripts\Saving\SerializableVector3.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\CoroutineQueue.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\DoubleJump.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\GetHit.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageText\DamageText.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterWeaponController.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\SimpleActionHandler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\Demo Elements\Code\NoJumpSlime.cs" />
@@ -163,6 +166,7 @@
     <Compile Include="Assets\Scripts\Core\ActionScheduler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Events\TakeDamageEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />

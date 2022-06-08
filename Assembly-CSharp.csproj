@@ -102,6 +102,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\Demo Elements\Code\HighJumpTrampoline.cs" />
     <Compile Include="Assets\Scripts\SceneManagement\Portal.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperCollisionType.cs" />
+    <Compile Include="Assets\Scripts\Attributes\HealthBar.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Math3d.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\AnimationData.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterNavigationController.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Assets\Scripts\Combat\Weapon.cs" />
     <Compile Include="Assets\Scripts\Attributes\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\Core\CameraFacing.cs" />
+    <Compile Include="Assets\Scripts\Events\TakeDamageEvent.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperCollider.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\HitContext.cs" />
     <Compile Include="Assets\Scripts\Saving\SerializableVector3.cs" />
@@ -166,7 +168,6 @@
     <Compile Include="Assets\Scripts\Core\ActionScheduler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
-    <Compile Include="Assets\Scripts\Events\TakeDamageEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />

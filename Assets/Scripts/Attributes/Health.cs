@@ -28,10 +28,6 @@ namespace RPG.Attributes
             _healthPoints = new LazyValue<float>(GetInitialHealth);
         }
 
-        private DamageTextSpawner GetDamageTextSpawner()
-        => GetComponentInChildren<DamageTextSpawner>();
-        
-
         private float GetInitialHealth()
         {
             var hp = _baseStats.GetStat(Stat.Health);
@@ -131,11 +127,11 @@ namespace RPG.Attributes
                 .GetStat(Stat.ExperienceReward));
         }
 
-        public float GetPercentage()
-        {
-            var maxHealth = GetComponent<BaseStats>().GetStat(Stat.Health);
-            return 100 * (_healthPoints.value / maxHealth);
-        }
+        public float GetPercentage => 100 * GetFraction;
+        
+
+        public float GetFraction
+            => _healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health);
 
         public object CaptureState()
         {

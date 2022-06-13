@@ -115,6 +115,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\BSPTree.cs" />
     <Compile Include="Assets\Scripts\Attributes\Health.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\SuperCharacterController\SuperCharacterController\Core\SuperMath.cs" />
+    <Compile Include="Assets\Scripts\Combat\Weapon.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Lookups\Animations\HitType.cs" />
     <Compile Include="Assets\Scripts\Control\PatrolPath.cs" />
     <Compile Include="Assets\Scripts\Movement\Mover.cs" />
@@ -127,7 +128,7 @@
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\BaseActionHandler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Extensions\AnimatorExtensions.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\Actions\Movement\DiveRoll.cs" />
-    <Compile Include="Assets\Scripts\Combat\Weapon.cs" />
+    <Compile Include="Assets\Scripts\Combat\WeaponConfig.cs" />
     <Compile Include="Assets\Scripts\Attributes\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\Core\CameraFacing.cs" />
     <Compile Include="Assets\Scripts\Events\TakeDamageEvent.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Assets\Scripts\Core\ActionScheduler.cs" />
     <Compile Include="Assets\Asset Packs\ExplosiveLLC\RPG Character Mecanim Animation Pack FREE\Code\RPGCharacterController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Audio\SoundRandomizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />

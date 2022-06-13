@@ -15,8 +15,7 @@ namespace RPG.Attributes
 
         void Update()
         {
-            var hpPercentage = healthComponent.GetFraction;
-            Debug.Log(hpPercentage);
+            var hpPercentage = healthComponent.GetFraction;            
             if (Mathf.Approximately(hpPercentage, 0) 
                 || Mathf.Approximately(hpPercentage, 1))
             {

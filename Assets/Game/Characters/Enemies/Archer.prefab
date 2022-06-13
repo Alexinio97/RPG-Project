@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: defaultWeapon
       value: 
       objectReference: {fileID: 11400000, guid: 2d3fc59977d917d4cbd5d06e7b1d260f, type: 2}
+    - target: {fileID: 3713908197854586724, guid: e4d2822fd689b134589c73c9898655af, type: 3}
+      propertyPath: defaultWeaponConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3fc59977d917d4cbd5d06e7b1d260f, type: 2}
     - target: {fileID: 5370835772924854327, guid: e4d2822fd689b134589c73c9898655af, type: 3}
       propertyPath: m_Name
       value: Archer

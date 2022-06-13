@@ -6,6 +6,7 @@ using RPG.Stats;
 using RPG.UI.DamageText;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Attributes
 {
@@ -14,17 +15,18 @@ namespace RPG.Attributes
         [SerializeField] float fadeInGroundDuration = 3f;
         [SerializeField] float regenerationPercentage = 70;
         [SerializeField] TakeDamageEvent takeDamageEvent;
+        [SerializeField] UnityEvent onDie;
        
         private Animator _animator;
         private ActionScheduler _scheduler;
         private LazyValue<float> _healthPoints;
         private float maxHealthPoints;
         private bool _isDead = false;
-        private BaseStats _baseStats;        
+        private BaseStats _baseStats;
 
         private void Awake()
         {
-            _baseStats = GetComponent<BaseStats>();            
+            _baseStats = GetComponent<BaseStats>();
             _healthPoints = new LazyValue<float>(GetInitialHealth);
         }
 
@@ -105,6 +107,7 @@ namespace RPG.Attributes
             _healthPoints.value = Mathf.Max(_healthPoints.value - damage, 0);
             if (_healthPoints.value == 0)
             {
+                onDie.Invoke();
                 AwardExperience(instigator);
                 Die();
             }
@@ -143,6 +146,12 @@ namespace RPG.Attributes
             _healthPoints.value = (float)state;            
             if(_healthPoints.value <= 0)
                 Die();
+        }
+
+
+        public void Heal(float healthToRestore)
+        {
+            _healthPoints.value = Mathf.Min(_healthPoints.value + healthToRestore, maxHealthPoints);
         }
     }
 }

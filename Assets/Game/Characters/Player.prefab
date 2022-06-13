@@ -111,6 +111,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3049632464144287394}
     - target: {fileID: 4461316334795829978, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: defaultWeaponConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: a56ffc6a1a950fc439ca3ea5f8c66c02, type: 2}
+    - target: {fileID: 4461316334795829978, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: weaponOverrideController
       value: 
       objectReference: {fileID: 22100000, guid: f1b503388536fc9408685706150b1699, type: 2}
@@ -120,7 +124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5865939324544604510, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -152,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7811134891154505795, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.409
+      value: -9.308
       objectReference: {fileID: 0}
     - target: {fileID: 7811134891154505795, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: m_LocalPosition.z

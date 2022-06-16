@@ -59,6 +59,34 @@ PrefabInstance:
       propertyPath: healthPoints
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 8800505870801050047}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Aggrevated
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: RPG.Control.AIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494072114456520883, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7780824015179525981, guid: 4981317c5749cda45b35d5923c47f7c2, type: 3}
       propertyPath: characterClass
       value: 1
@@ -185,7 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55359ecdc4795774bb5ace2c57f67278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 6
+  maxSpeed: 5
+  maxNavPathLength: 40
 --- !u!114 &8800505870801050047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +232,6 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   waypointTolerance: 1
   dwellTimeMax: 5
-  _mover: {fileID: 0}
 --- !u!1001 &4626212245355475991
 PrefabInstance:
   m_ObjectHideFlags: 0
